@@ -188,6 +188,15 @@ func GetPlugins(getPlugins bool) *GetPluginsOption {
 	return &GetPluginsOption{getPlugins}
 }
 
+type GenerateConfigOutOption struct {
+	generateConfigOut string
+}
+
+// GenerateConfigOut represents the -generate-config-out flag.
+func GenerateConfigOut(generateConfigOut string) *GenerateConfigOutOption {
+	return &GenerateConfigOutOption{generateConfigOut}
+}
+
 // LockOption represents the -lock flag.
 type LockOption struct {
 	lock bool

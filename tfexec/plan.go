@@ -14,6 +14,7 @@ import (
 type planConfig struct {
 	destroy      bool
 	dir          string
+	generateConfigOut string
 	lock         bool
 	lockTimeout  string
 	out          string
@@ -43,6 +44,10 @@ type PlanOption interface {
 
 func (opt *DirOption) configurePlan(conf *planConfig) {
 	conf.dir = opt.path
+}
+
+func (opt *GenerateConfigOutOption) configurePlan(conf *planConfig) {
+	conf.generateConfigOut = opt.generateConfigOut
 }
 
 func (opt *VarFileOption) configurePlan(conf *planConfig) {
@@ -189,6 +194,9 @@ func (tf *Terraform) buildPlanArgs(ctx context.Context, c planConfig) ([]string,
 	args := []string{"plan", "-no-color", "-input=false", "-detailed-exitcode"}
 
 	// string opts: only pass if set
+	if c.generateConfigOut != "" {
+		args = append(args, "-generate-config-out="+c.generateConfigOut)
+	}
 	if c.lockTimeout != "" {
 		args = append(args, "-lock-timeout="+c.lockTimeout)
 	}
